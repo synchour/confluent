@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  zk:
+    build: .
+    network_mode: "host"
+    ports:
+      - "2181:2181"
+    entrypoint: ./bin/zookeeper-server-start ./etc/kafka/zookeeper.properties
+  kafka:
+    build: .
+    network_mode: "host"
+    depends_on:
+      - zk
+    ports:
+      - "9092"
+    entrypoint: ./bin/kafka-server-start ./etc/kafka/server.properties
+volumes:
+    db_data:
+
